@@ -54,10 +54,10 @@ class ColorizationDataset(BaseDataset):
             B_paths (str) - - image paths (same as A_paths)
         """
         path = self.AB_paths[index]
-        im = Image.open(path).convert('RGB')
+        im = Image.open(path).convert('L')
         im = self.transform(im)
         im = np.array(im)
-        lab = color.rgb2lab(im).astype(np.float32)
+        lab = im.astype(np.float32)                         #color.rgb2lab(im).astype(np.float32)
         lab_t = transforms.ToTensor()(lab)
         A = lab_t[[0], ...] / 50.0 - 1.0
         B = lab_t[[1, 2], ...] / 110.0
